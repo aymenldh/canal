@@ -1,9 +1,17 @@
 import { Routes } from '@angular/router';
-import { MoviesListComponent } from './components/movies-list/movies-list.component';
-import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'movies', pathMatch: 'full' },
-    { path: 'movies', component: MoviesListComponent },
-    { path: 'details', component: MovieDetailsComponent }    
-  ];
+  { path: '', redirectTo: 'movies', pathMatch: 'full' },
+  {
+    path: 'movies', loadComponent: () =>
+      import(
+        './components/movies-list/movies-list.component'
+      ).then((m) => m.MoviesListComponent),
+  },
+  {
+    path: 'details', loadComponent: () =>
+      import(
+        './components/movie-details/movie-details.component'
+      ).then((m) => m.MovieDetailsComponent),
+  }
+];

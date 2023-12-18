@@ -8,6 +8,7 @@ import { MoviesService } from '../../services/movies.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
+import { catchError, finalize, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-movies-list',
@@ -39,16 +40,19 @@ export class MoviesListComponent {
   getMovies(page: number = 1): void {
     this.isLoading = true;
     this.moviesService
-      .getMovies(page)
-      .subscribe({
-        next: (data: any) => {
+      .getMovies(page).pipe(
+        tap((data: any) => {
           this.movies = data.results
           this.length = data.total_results
-
-        },
-        error: (e) => { console.error(e); this.isLoading = false; },
-        complete: () => { this.isLoading = false; }
-      })
+        }),
+        catchError((e) => {
+          console.error(e);
+          this.isLoading = false;
+          return of(e)
+        }),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe()
   }
 
   navigateToDetails(movie: Movie): void {
