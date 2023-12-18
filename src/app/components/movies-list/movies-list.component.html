@@ -1,0 +1,26 @@
+<div class="list">
+    <h2>Movies list</h2>
+    <div class="container responsive-grid">
+        <mat-card *ngFor="let movie of movies">
+            <img mat-card-image src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{movie.backdrop_path}}"
+                alt="{{movie.name}}" />
+            <mat-card-content class="matcard">
+                <div class="moviename">
+                    <span>{{ movie.name }} </span>
+                </div>
+                <p>{{ movie.first_air_date }}</p>
+            </mat-card-content>
+            <mat-card-actions class="details">
+                <a (click)="navigateToDetails(movie)" class="details" mat-button>Détails ...</a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <span *ngIf="!movies">
+        <!-- TODO -->
+        NO DATA !
+    </span>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    <mat-paginator (page)="getMovies(paginator.pageIndex+1)" [length]="length" [pageSizeOptions]="[20]"
+        showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>
