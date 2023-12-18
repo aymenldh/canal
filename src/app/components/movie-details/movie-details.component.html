@@ -1,1 +1,14 @@
-<p>movie-details works!</p>
+<div *ngIf="movie">
+
+    <h2>Name of movie : {{movie.name}}</h2>
+    <mat-card>
+        <img mat-card-image src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/{{movie.backdrop_path}}"
+            alt="{{movie.name}}" />
+        <mat-card-content class="matcard">
+            <div class="moviename">
+                <span>{{ movie.name }} </span>
+            </div>
+            <p>{{ movie.first_air_date }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>
